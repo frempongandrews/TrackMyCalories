@@ -1,0 +1,30 @@
+/*remove arrows*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* remove chrome autofill yellow color */
+@-webkit-keyframes autofill {
+    to {
+        color: #666;
+        background: transparent;
+    }
+}
+
+input:-webkit-autofill {
+    -webkit-animation-name: autofill;
+    -webkit-animation-fill-mode: both;
+}
+
+.no-items-text{
+    padding: 10px;
+    font-style: italic;
+    color: #999999;
+}
+
+.in{
+    opacity: 1;
+    transition: opacity 1s ease;
+}

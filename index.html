@@ -8,7 +8,7 @@
         <title>Track My Calories | Meal and Calorie Tracker</title>
 
         <!-- materialize css-->
-
+        <link type="text/css" rel="stylesheet" href="style.css" />
         <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css"  media="screen,projection"/>
         <!-- font awesome-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" integrity="sha384-DmABxgPhJN5jlTwituIyzIUk6oqyzf3+XuP7q3VfcWA2unxgim7OSSZKKf0KSsnh" crossorigin="anonymous">
@@ -49,14 +49,14 @@
 
                         <div class="input-field col s6">
 
-                            <input type="text" placeholder="Add Item" id="item-name">
+                            <input type="text" placeholder="Add Item" id="item-name" required>
                             <label for="item-name">Meal</label>
 
                         </div>
 
                         <div class="input-field col s6">
 
-                            <input type="text" placeholder="Add Calories" id="item-calories">
+                            <input type="number" placeholder="Add Calories" id="item-calories" required>
                             <label for="item-calories">Calories</label>
 
                         </div>
