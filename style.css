@@ -1,3 +1,11 @@
+.main-container{
+    min-width: 450px;
+}
+
+nav a.brand-logo.center{
+    font-size: 1.5rem;
+}
+
 /*remove arrows*/
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -24,7 +32,41 @@ input:-webkit-autofill {
     color: #999999;
 }
 
-.in{
-    opacity: 1;
-    transition: opacity 1s ease;
+
+
+/************** Media Queries ********************/
+
+@media screen and (max-width: 500px) {
+
+    /*make buttons smaller*/
+
+    button.btn{
+        font-size: 0.9rem;
+        display: block;
+        width: 50%;
+    }
+
+
+    nav a.brand-logo.center{
+        left: 20%;
+        font-size: 1.2rem;
+    }
+
+    a.clear-btn{
+        font-size: 0.7rem;
+    }
+
+    h3.total-calories-text{
+        font-size: 1.2rem;
+    }
 }
+
+
+
+
+
+
+
+
+
+
