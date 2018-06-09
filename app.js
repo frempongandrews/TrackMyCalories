@@ -206,12 +206,27 @@ const App = (function (ItemCtrl, UICtrl) {
         //add item event
         document.querySelector(UISelectors.addBtn).addEventListener('click', onItemAddSubmit);
 
+        //disable submit item when Enter key on keyboard is clicked
+        document.addEventListener('keypress', function(e) {
+
+
+
+            if (e.keyCode === 13 || e.which === 13) {
+                e.preventDefault();
+                return false;
+            }
+
+        });
+
         //Edit icon click
-        document.querySelector(UISelectors.itemList).addEventListener('click', itemUpdateSubmit)
+        document.querySelector(UISelectors.itemList).addEventListener('click', onEditItem);
+
+        //add event listener to update btn
+        document.querySelector(UISelectors.updateBtn).addEventListener('click', onItemEditSubmit)
 
     };
 
-    //onItemAddSubmit
+
 
 
     //adding meal to list
@@ -252,10 +267,12 @@ const App = (function (ItemCtrl, UICtrl) {
 
     };
 
-    //itemUpdateSubmit
+    //onEditItem
 
-    const itemUpdateSubmit = function (e) {
+    const onEditItem = function (e) {
         e.preventDefault();
+        //set editing state on Item to true
+
 
         // console.log(e.target.classList);
 
@@ -283,6 +300,14 @@ const App = (function (ItemCtrl, UICtrl) {
     };
 
 
+    const onItemEditSubmit = function (e) {
+        e.preventDefault();
+        console.log('update works');
+
+        //
+
+
+    };
 
 
 
