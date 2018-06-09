@@ -183,7 +183,7 @@ const UICtrl = (function () {
         },
 
 
-        //hiding edit state(hiding dele, update and back button)
+        //hiding edit state(hiding delete, update and back button)
         clearEditState: function () {
 
             UICtrl.cleaFields();
@@ -193,6 +193,14 @@ const UICtrl = (function () {
             document.querySelector(UISelectors.backBtn).style.display = 'none';
             document.querySelector(UISelectors.addBtn).style.display = 'inline';
 
+        },
+
+        removeEditState: function (e) {
+            e.preventDefault();
+            document.querySelector(UISelectors.updateBtn).style.display = 'none';
+            document.querySelector(UISelectors.deleteBtn).style.display = 'none';
+            document.querySelector(UISelectors.backBtn).style.display = 'none';
+            document.querySelector(UISelectors.addBtn).style.display = 'inline';
         },
 
         showEditState: function () {
@@ -246,7 +254,7 @@ const UICtrl = (function () {
 
             UICtrl.clearEditState();
 
-            // UICtrl.cleaFields();
+
 
         },
 
@@ -276,7 +284,10 @@ const App = (function (ItemCtrl, UICtrl) {
         document.querySelector(UISelectors.itemList).addEventListener('click', onEditItem);
 
         //add event listener to update btn
-        document.querySelector(UISelectors.updateBtn).addEventListener('click', onItemEditSubmit)
+        document.querySelector(UISelectors.updateBtn).addEventListener('click', onItemEditSubmit);
+
+        //add event back btn
+        document.querySelector(UISelectors.backBtn).addEventListener('click', UICtrl.removeEditState);
 
     };
 
