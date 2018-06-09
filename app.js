@@ -31,7 +31,8 @@ const ItemCtrl = (function () {
         ],
 
         currentItem: null,
-        totalCalories: 0
+        totalCalories: 0,
+        isEditing: false
 
     };
 
@@ -86,6 +87,14 @@ const ItemCtrl = (function () {
 
             //show new item in list
             UICtrl.populateItemList(data.items);
+        },
+
+        setEditingState: function (bool) {
+             data.isEditing = bool;
+        },
+
+        getEditingState: function () {
+            return data.isEditing;
         }
     }
 
@@ -167,6 +176,7 @@ const UICtrl = (function () {
 
         showEditState: function () {
 
+
             //show delete, update and back buttons
             document.querySelector(UISelectors.updateBtn).style.display ='inline';
             document.querySelector(UISelectors.deleteBtn).style.display ='inline';
@@ -175,6 +185,7 @@ const UICtrl = (function () {
 
         },
 
+        //showing item to edit values in input
         showItemToEdit: function (itemToEdit) {
 
             document.querySelector(UISelectors.itemNameInput).value = itemToEdit.name;
@@ -205,18 +216,6 @@ const App = (function (ItemCtrl, UICtrl) {
 
         //add item event
         document.querySelector(UISelectors.addBtn).addEventListener('click', onItemAddSubmit);
-
-        //disable submit item when Enter key on keyboard is clicked
-        document.addEventListener('keypress', function(e) {
-
-
-
-            if (e.keyCode === 13 || e.which === 13) {
-                e.preventDefault();
-                return false;
-            }
-
-        });
 
         //Edit icon click
         document.querySelector(UISelectors.itemList).addEventListener('click', onEditItem);
@@ -272,7 +271,10 @@ const App = (function (ItemCtrl, UICtrl) {
     const onEditItem = function (e) {
         e.preventDefault();
         //set editing state on Item to true
+        ItemCtrl.setEditingState(true);
 
+        //remove keypress function which adds current editing item
+        App.onRemoveKeyPressAddItem();
 
         // console.log(e.target.classList);
 
@@ -303,6 +305,7 @@ const App = (function (ItemCtrl, UICtrl) {
     const onItemEditSubmit = function (e) {
         e.preventDefault();
         console.log('update works');
+        ItemCtrl.setEditingState(false);
 
         //
 
@@ -340,6 +343,21 @@ const App = (function (ItemCtrl, UICtrl) {
             //load event listeners
             loadEventListeners();
 
+        },
+
+        //remove adding item functionality from 'Enter' key when in editing state
+        onRemoveKeyPressAddItem: function () {
+            //get editing state
+            if (ItemCtrl.getEditingState()) {
+                document.addEventListener('keypress', function (e) {
+
+                    if (e.keyCode === 13 || e.which === 13) {
+                        e.preventDefault();
+                        return false;
+                    }
+
+                })
+            }
         }
 
     }
