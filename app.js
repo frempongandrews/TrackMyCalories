@@ -54,6 +54,26 @@ const ItemCtrl = (function () {
 
         },
 
+        updateItem: function (name, calories) {
+
+            calories = parseInt(calories);
+
+            let found = null;
+
+
+            //update items state
+            data.items.forEach((item) => {
+                if(item.id === data.currentItem.id) {
+
+                    item.name = name;
+                    item.calories = calories;
+                    found = item;
+                }
+            });
+
+            return found;
+        },
+
         setCurrentItem: function (item) {
             data.currentItem = item;
         },
@@ -106,6 +126,7 @@ const UICtrl = (function () {
 
     const UISelectors = {
       itemList: '#item-list',
+        listItems: '#item-list li',
         addBtn: '.add-btn',
         updateBtn: '.update-btn',
         deleteBtn: '.delete-btn',
@@ -192,6 +213,40 @@ const UICtrl = (function () {
             document.querySelector(UISelectors.itemCaloriesInput).value = itemToEdit.calories;
 
             UICtrl.showEditState();
+
+        },
+
+        updateListItem: function (updatedItem) {
+
+            let listItems = document.querySelectorAll(UISelectors.listItems);
+
+            //from nodelist to array
+
+            listItems = Array.from(listItems);
+
+            listItems.forEach((listItem) => {
+
+                const itemID = listItem.getAttribute('id');
+
+                if (itemID === `item-${updatedItem.id}`) {
+
+
+                    document.querySelector(`#${itemID}`).innerHTML = `<strong>${updatedItem.name}: </strong> <em>${updatedItem.calories} Calories</em><a href="#" class="secondary-content"><i class="fas fa-pencil-alt edit-item"></i></a>`;
+
+                }
+
+            });
+
+            //get tot calories
+            let totalCalories = ItemCtrl.getTotalCalories();
+            //insert total calories
+            UICtrl.showTotalCalories(totalCalories);
+
+            //clear input fields
+
+            UICtrl.clearEditState();
+
+            // UICtrl.cleaFields();
 
         },
 
@@ -307,8 +362,14 @@ const App = (function (ItemCtrl, UICtrl) {
         console.log('update works');
         ItemCtrl.setEditingState(false);
 
-        //
+        //todo
 
+        const input = UICtrl.getItemInput();
+
+        const updatedItem = ItemCtrl.updateItem(input.name, input.calories);
+
+        //updating ui of the update
+        UICtrl.updateListItem(updatedItem);
 
     };
 
