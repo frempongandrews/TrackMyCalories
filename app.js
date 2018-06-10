@@ -124,12 +124,15 @@ const ItemCtrl = (function () {
             //removing from items array
             data.items.splice(index, 1);
 
-
-            //todo
-            //remove from DOM
-
             data.currentItem = null;
 
+        },
+
+        clearAllItems: function () {
+
+            data.items = [];
+            ItemCtrl.setEditingState(false);
+            data.currentItem = null;
         },
 
         setEditingState: function (bool) {
@@ -154,6 +157,7 @@ const UICtrl = (function () {
         updateBtn: '.update-btn',
         deleteBtn: '.delete-btn',
         backBtn: '.back-btn',
+        clearBtn: '.clear-btn',
         itemNameInput: '#item-name',
         itemCaloriesInput: '#item-calories',
         noItemsText: '.no-items-text',
@@ -297,6 +301,27 @@ const UICtrl = (function () {
 
         },
 
+        removeItems: function () {
+
+            let listItems = document.querySelectorAll(UISelectors.listItems);
+
+            //nodelst to array
+            listItems = Array.from(listItems);
+
+            listItems.forEach((listItem) => {
+                listItem.remove();
+            });
+
+            //get tot calories
+            let totalCalories = ItemCtrl.getTotalCalories();
+            //insert total calories
+            UICtrl.showTotalCalories(totalCalories);
+
+
+            UICtrl.clearEditState();
+
+        },
+
 
         getSelectors: function () {
             return UISelectors;
@@ -330,6 +355,9 @@ const App = (function (ItemCtrl, UICtrl) {
 
         //delete
         document.querySelector(UISelectors.deleteBtn).addEventListener('click', itemDeleteSubmit);
+
+        //clear items
+        document.querySelector(UISelectors.clearBtn).addEventListener('click', onClearAllItems);
 
     };
 
@@ -415,8 +443,6 @@ const App = (function (ItemCtrl, UICtrl) {
         console.log('update works');
         ItemCtrl.setEditingState(false);
 
-        //todo
-
         const input = UICtrl.getItemInput();
 
         const updatedItem = ItemCtrl.updateItem(input.name, input.calories);
@@ -439,6 +465,18 @@ const App = (function (ItemCtrl, UICtrl) {
 
         //remove from ui
         UICtrl.deleteListItem(currentItem.id);
+    };
+
+    //clear all items
+
+    const onClearAllItems = function () {
+
+        //delete all items from state
+        ItemCtrl.clearAllItems();
+
+
+        //remove from ui
+        UICtrl.removeItems();
     };
 
 
