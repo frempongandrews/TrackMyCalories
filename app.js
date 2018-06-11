@@ -26,6 +26,18 @@ const StorageCtrl = (function () {
         getItemsFromStorage: function () {
             let items = JSON.parse(localStorage.getItem('items') === null) ? [] : JSON.parse(localStorage.getItem('items'));
             return items;
+        },
+
+        removeItemFromStorage: function (removedItemIndex) {
+
+            let items = JSON.parse(localStorage.getItem('items'));
+            if (items.length === 0) {
+                return;
+            }
+
+            items.splice(removedItemIndex, 1);
+
+            localStorage.setItem('items', JSON.stringify(items));
         }
 
     }
@@ -141,6 +153,8 @@ const ItemCtrl = (function () {
             return item;
         },
 
+
+        //returns index deleted item
         deleteItem: function (id) {
 
             //get ids
@@ -154,9 +168,11 @@ const ItemCtrl = (function () {
             const index = ids.indexOf(id);
 
             //removing from items array
-            data.items.splice(index, 1);
+            let deletedItem = data.items.splice(index, 1);
 
             data.currentItem = null;
+
+            return index;
 
         },
 
@@ -329,6 +345,8 @@ const UICtrl = (function () {
             //insert total calories
             UICtrl.showTotalCalories(totalCalories);
 
+            ItemCtrl.setEditingState(false);
+
             UICtrl.clearEditState();
 
         },
@@ -499,7 +517,11 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
         const currentItem = ItemCtrl.getCurrentItem();
 
         //delete from items arr
-        ItemCtrl.deleteItem(currentItem.id);
+        let deletedItemIndex = ItemCtrl.deleteItem(currentItem.id);
+
+        //delete from local storage
+
+        StorageCtrl.removeItemFromStorage(deletedItemIndex);
 
         //remove from ui
         UICtrl.deleteListItem(currentItem.id);
