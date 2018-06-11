@@ -1,0 +1,1 @@
+Vanilla Javascript Calories Tracking App using the module pattern
